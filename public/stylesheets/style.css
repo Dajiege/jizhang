@@ -1,0 +1,25 @@
+html,body {
+  margin: 0 auto;
+  padding: 0;
+  height: 100%;
+  font: "Lucida Grande", Helvetica, Arial, sans-serif;
+  max-width: 720px;
+}
+
+a {
+  color: #00B7FF;
+}
+.white{color: #fff;}
+.wrap{
+  min-height: 100%;
+  background: url(../images/bg.jpg) no-repeat center center;
+  background-size: cover;
+}
+.w80{
+  width: 80%;
+  margin: 0 auto;
+}
+.page-header{
+  width: 80%;
+  margin: 40px auto;
+}
