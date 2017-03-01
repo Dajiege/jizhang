@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>注册页面</title>
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="/icon/iconfont.css">
+  <script src="//cdn.bootcss.com/zepto/1.1.7/zepto.min.js"></script>
+  <script src="/javascripts/rootResizeFont.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+</head>
+<body>
+  <form method="post" onsubmit="return false">
+    <input type="text" id="user" placeholder="请输入用户名"><br>
+    <input type="password" id="pwd" placeholder="请输入密码"><br>
+    <input type="password" id="pwd1" placeholder="请重新输入密码"><br>
+    <input type="submit" id="register" value="注册">
+  </form>
+
+  <script>
+  $(function(){
+    $("#register").click(function(event) {
+      var username = $("#user").val();
+      var pwd = $("#pwd").val();
+      var pwd1 = $("#pwd1").val();
+      if(pwd !== pwd1){ 
+          $("#pwd").css("border","1px solid red");
+          $("#pwd1").css("border","1px solid red");
+      }else if(pawd === pwd1){
+      var data = {"uname":username,"upwd":pwd};
+      $.ajax({ 
+          url: '/register',
+          type: 'post',
+          data: data,
+          success: function(data,status){ 
+              if(status == 'success'){ 
+                  location.href = 'login';
+              }
+          },
+          error: function(data,err){ 
+                  location.href = 'register';
+          }
+      }); 
+    }
+    });
+  })
+    
+  </script>
+</body>
+</html>

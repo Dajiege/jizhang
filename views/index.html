@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/icon/iconfont.css">
+    <script src="//cdn.bootcss.com/zepto/1.1.7/zepto.min.js"></script>
+    <script src="/javascripts/rootResizeFont.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+</head>
+<body>
+  <div class="wrap container-fluid">
+    <div class="page-header">
+      <h1 class="text-center white">登录</h1> 
+    </div>
+    <form action="" class="w80">
+      <div class="form-group input-group">
+        <span class="input-group-addon">
+          <i class="iconfont icon-user"></i>
+        </span>
+        <input type="text" id="user" class="form-control input-lg" placeholder="请输入用户名" name="user">
+      </div>
+      <div class="form-group input-group">
+        <span class="input-group-addon">
+          <i class="iconfont icon-key"></i>
+        </span>
+        <input type="password" id="password" class="form-control input-lg" placeholder="请输入密码" name="psd">
+      </div>
+      <div class="form-group clearfix">
+        <input type="submit" value="登录" class="btn btn-primary w45 pull-left">
+        <a href="/register" class="btn btn-danger w45 pull-right">注册</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
