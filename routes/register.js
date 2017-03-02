@@ -11,7 +11,7 @@ router.get('/',function(req,res,next){
 })
 router.post('/',function(req,res){
   var username = req.body.uname,
-      password = req.body.pwd,
+      password = req.body.upwd,
       data = {"user":username,"password": password};
       data_ = {"user":username};
       select = {};
@@ -24,7 +24,7 @@ router.post('/',function(req,res){
     })();
     if(!isEmpty){
       console.log("已存在该用户名");
-      res.sendStatus(500);
+      res.sendStatus(501);
     }
     else{
       mongoutil.insertData(data,"users");

@@ -35,12 +35,15 @@
           data: data,
           success: function(data,status){ 
               if(status == 'success'){ 
-                  location.href = 'login';
+                  alert("注册成功！");
+                  location.href = '/';
               }
           },
-          error: function(data,err,res){ 
-            alert(res.name);
-                  location.href = 'register';
+          error: function(data,err){ 
+            if(data.status == '501'){
+              alert("用户名已存在");
+            };
+            $("#user").focus();
           }
       }); 
     }

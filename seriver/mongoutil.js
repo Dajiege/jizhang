@@ -2,7 +2,7 @@ var MongoClient = require('mongodb').MongoClient;
 var config = require("../config/config");
 var DB_CONN_STR = config.MONGODB_STR;
 var insertData = function(data, conllection, db, callback){
-  var collection = db.conllection(conllection);
+  var collection = db.collection(conllection);
   collection.insert(data, function(err,result){
     if(err){
       console.log('Error:'+ err);
