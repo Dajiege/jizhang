@@ -24,6 +24,7 @@ router.post('/', function(req,res,next){
       res.sendStatus(501);
     }
     else{
+      req.session.user = username;
       console.log("登录成功");
       res.sendStatus(200);
     }
@@ -31,6 +32,16 @@ router.post('/', function(req,res,next){
 })
 
 router.get('/success',function(req,res){
-  res.render('success');
+  if(!req.session.user){
+    req.session.error = "请先登录";
+    res.redirect("/");
+  }
+  res.render('success', { user: req.session.user});
+})
+
+router.get('/logout',function(req,res){
+  req.session.user = null;
+  req.session.error = null;
+  res.redirect("/");
 })
 module.exports = router;
