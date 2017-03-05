@@ -22,6 +22,17 @@ var selectData = function(where,conllection,select,db,callback){
     callback(result);
   });
 };
+var removeData = function(data,conllection,db,callback){
+  var collection = db.collection(conllection);
+  collection.remove(data,function(err,result){
+    console.log(result);
+    if(err){
+      console.log('Error:'+ err);
+      return;
+    }
+    callback(result);
+  });
+};
 module.exports ={
   insertData:function(data,conllection,cb){
     MongoClient.connect(DB_CONN_STR, function(err,db){
@@ -44,5 +55,16 @@ module.exports ={
         db.close();
       })
     })
+  },
+  removeData:function(data,conllection,cb){
+    MongoClient.connect(DB_CONN_STR, function(err,db){
+      console.log("连接成功!");
+      removeData(data,conllection,db,function(result){
+        if(cb){
+          cb(result);
+        }
+        db.close();
+      });
+    });
   }
 }

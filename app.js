@@ -8,6 +8,8 @@ var session = require('express-session');
 
 var routes = require('./routes/index');
 var register = require('./routes/register');
+var manage = require('./routes/manage');
+var kaidan = require('./routes/kaidan');
 
 var app = express();
 
@@ -45,6 +47,8 @@ app.use(function(req,res,next){
 app.use('/', routes);
 app.use('/success', routes);
 app.use('/register', register);
+app.use('/admin', manage);
+app.use(kaidan);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

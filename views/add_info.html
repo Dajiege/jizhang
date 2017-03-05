@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>开单</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="wrap container-fluid">
+    <form method="post" onsubmit="return false" style="width: 800px;margin: 20px auto">
+      <div class="form-group input-group">
+        <label for="name">客户： </label> 
+        <input type="text" id="name" placeholder="请输客户姓名" name="user">
+        <label for="style" style="margin-left: 50px;">品种：</label>
+        <select name="style" id="style">
+          <option value="huaqi">花旗松</option>
+          <option value="fushe">辐射松</option>
+          <option value="tieshan">铁杉</option>
+        </select>
+        <label for="date" style="margin-left: 50px;">日期：</label>
+        <input type="text" id="date" name="date">
+      </div>
+      <div class="form-group clearfix">
+        <label for="length">长度：</label>
+        <input type="number" id="length">（单位：米）
+      </div>
+      <div class="form-group clearfix">
+        <label for="guige">规格：</label>
+        <input type="number" id="guige1"> ×
+        <input type="number" id="guige2">（如：30*50，单位：毫米）
+      </div>
+      <div class="form-group clearfix">
+        <label for="gen">数量：</label>
+        <input type="number" id="gen">（单位：根）
+      </div>
+      <div class="form-group clearfix">
+        <label for="num">方数：</label>
+        <span id="num">{{num}}（单位：立方米）</span>
+      </div>
+      <div class="form-group clearfix">
+        <label for="price">单价：</label>
+        <input type="number" id="price">（单位：元/立方米）
+      </div>
+      <div class="form-group clearfix">
+        <label for="total">价格：</label>
+        <span id="total">{{price}}（单位：元）</span>
+      </div>
+      <input type="reset" class="btn btn-default" value="重置表单">
+      <button class="btn btn-primary">加入表单</button>
+      <button class="btn btn-danger">提交表单</button>
+    </form>
+    <iframe src="/show" frameborder="0" width="800px" height="800px" style="display: block; margin: 0 auto"></iframe>
+  </div>
+  <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/vue/2.2.1/vue.min.js"></script>
+  <script>
+
+        var date = $("#date");
+        var today = new Date();
+        var str = today.getFullYear().toString() + "-" + (today.getMonth()+1).toString()  + "-" +today.getDate().toString();
+        date.val(str);
+        var fangshu,x,y,z,num,price,totalPrice;
+        var app = new Vue({
+            el: "#num",
+            data: {
+              num : fangshu
+            }
+          })
+        var app2 = new Vue({
+            el: "#total",
+            data: {
+              price : totalPrice
+            }
+          })
+        $("form").on('change','input',function(e){
+          x = parseFloat($("#guige1").val())*0.001;
+          y = parseFloat($("#guige2").val())*0.001;
+          z = parseFloat($("#length").val());
+          num = parseFloat($("#gen").val())
+          fangshu = x*y*z*num;
+          price = parseFloat($("#price").val());
+          totalPrice = fangshu * price;
+          app.num = Math.floor(fangshu*1000)/1000;
+          app2.price = totalPrice.toFixed(2);
+        })
+
+  </script>
+</body>
+</html>

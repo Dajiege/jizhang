@@ -8,6 +8,7 @@ var mongoutil = require("../seriver/mongoutil");
 // });
 router.get('/',function(req,res,next){
   res.render('register');
+  next();
 })
 router.post('/',function(req,res){
   var username = req.body.uname,
