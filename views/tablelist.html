@@ -38,13 +38,24 @@
       </tr>
     </thead>
     <tbody>
+    <% if(data.canshu){
+    for(var i=0; i < data.canshu.length; i++){ %>
       <tr>
+        <td><%= data.canshu[i].changdu %></td>
+        <td><%= data.canshu[i].guige %></td>
+        <td><%= data.canshu[i].num %></td>
+        <td><%= data.canshu[i].fangshu %></td>
+        <td><%= data.canshu[i].price %></td>
+        <td><%= data.canshu[i].totalPrice %></td>
+      </tr>
+    <% } } %>
+      <tr>
+        <td>合计：</td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
-        <td></td>
+        <td><%=  %></td>
       </tr>
     </tbody>
   </table>

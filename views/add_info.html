@@ -107,7 +107,7 @@
           $("#addname").attr('disabled', 'disabled');;
         });
         $("#addform").click(function(event) {
-          data = {'changdu': z,'guige': x+"×"+y, 'num': num, 'fangshu': Math.floor(fangshu*1000)/1000, 'price': price, 'totalPrice': totalPrice.toFixed(2)};
+          data = {'changdu': z,'guige': x+"×"+y, 'num': num, 'fangshu': Math.floor(fangshu*1000)/1000, 'price': price, 'totalPrice': totalPrice.toFixed(2),'id': $("#no").text()};
           $.ajax({
             url: '/add',
             type: 'post',

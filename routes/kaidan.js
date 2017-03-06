@@ -38,9 +38,12 @@ router.post('/add',function(req,res,next){
       fangshu = req.body.fangshu,
       price = req.body.price,
       totalPrice = req.body.totalPrice,
-      data = {'changdu': changdu,'guige': guige, 'num': num, 'fangshu': fangshu, 'price': price, 'totalPrice': totalPrice};
+      id = req.body.id,
+      data = {item:{'changdu': changdu,'guige': guige, 'num': num, 'fangshu': fangshu, 'price': price, 'totalPrice': totalPrice}};
       console.log(data);
-      mongoutil.insertData(data,"kaidan");
+      mongoutil.pushData(data,{"id":id},"kaidan",function(result){
+        console.log(result);
+      });
       res.sendStatus(200);
 });
 
@@ -50,9 +53,18 @@ router.get('/show',function(req,res){
       if(result.length){
         var id = result[0].id,
         title = result[0].title,
-        time = new Date(result[0].date),
-        data = {"id": id, "title": title, "year":time.getFullYear(), "month": time.getMonth()+1, "date": time.getDate()}
-        res.render('tablelist',{"data":data});
+        time = new Date(result[0].date);
+        if(result[0].item){
+          var canshu = result[0].item;
+          data = {"id": id, "title": title, "year":time.getFullYear(), "month": time.getMonth()+1, "date": time.getDate(), "canshu": canshu}
+          res.render('tablelist',{"data":data});
+        }
+        else{
+          data = {"id": id, "title": title, "year":time.getFullYear(), "month": time.getMonth()+1, "date": time.getDate()}
+          res.render('tablelist',{"data":data});
+        }
+        
+       
       }
       else{
         var data={};

@@ -11,6 +11,16 @@ var insertData = function(data, conllection, db, callback){
     callback(result);
   });
 };
+var pushData = function(data, where, conllection, db, callback){
+  var collection = db.collection(conllection);
+  collection.update(where,{$push:data},function(err,result){
+    if(err){
+      console.log('Error:'+ err);
+      return;
+    }
+    callback(result);
+  });
+};
 var selectData = function(where,conllection,select,db,callback){
   var collection = db.collection(conllection);
   collection.find(where,select).toArray(function(err,result){
@@ -42,7 +52,7 @@ var addIds = function(collection1,collection2,db,callback){
     }
     callback(result.value.id);
   });
-}
+};
 module.exports ={
   insertData:function(data,conllection,cb){
     MongoClient.connect(DB_CONN_STR, function(err,db){
@@ -87,6 +97,16 @@ module.exports ={
         db.close();
       })
   });
+  },
+  pushData: function(data,where,conllection,cb){
+    MongoClient.connect(DB_CONN_STR, function(err,db){
+      pushData(data,where,conllection,db,function(result){
+        if(cb){
+          cb(result);
+        }
+        db.close();
+      })
+    });
   }
 
 }
