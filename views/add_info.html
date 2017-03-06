@@ -9,17 +9,18 @@
 <body>
   <div class="wrap container-fluid">
     <form method="post" onsubmit="return false" style="width: 800px;margin: 20px auto">
-      <div class="form-group input-group">
-        <label for="name">客户： </label> 
+      <div class="form-group input-group" style="border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 10px;">
+        <label for="no">编号：</label>
+        <span>No.<span id="no"><%= no %></span></span>
+        <label for="name" style="margin-left: 50px;">客户： </label> 
         <input type="text" id="name" placeholder="请输客户姓名" name="user">
-        <label for="style" style="margin-left: 50px;">品种：</label>
+        <label for="style" style="margin-left: 50px;">产品种类：</label>
         <select name="style" id="style">
-          <option value="huaqi">花旗松</option>
-          <option value="fushe">辐射松</option>
-          <option value="tieshan">铁杉</option>
+          <option>花旗松</option>
+          <option>辐射松</option>
+          <option>铁杉</option>
         </select>
-        <label for="date" style="margin-left: 50px;">日期：</label>
-        <input type="text" id="date" name="date">
+        <button class="btn btn-info" id="addname" style="margin-left: 50px;">添加客户</button>
       </div>
       <div class="form-group clearfix">
         <label for="length">长度：</label>
@@ -46,45 +47,94 @@
         <label for="total">价格：</label>
         <span id="total">{{price}}（单位：元）</span>
       </div>
-      <input type="reset" class="btn btn-default" value="重置表单">
-      <button class="btn btn-primary">加入表单</button>
+      <button class="btn btn-primary" id="addform">加入表单</button>
       <button class="btn btn-danger">提交表单</button>
+      <input type="reset" value="重置表单" class="btn btn-default">
     </form>
-    <iframe src="/show" frameborder="0" width="800px" height="800px" style="display: block; margin: 0 auto"></iframe>
+    <iframe src="/show" id="form" frameborder="0" width="100%" height="800px" style="display: block; margin: 0 auto"></iframe>
   </div>
   <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
   <script src="//cdn.bootcss.com/vue/2.2.1/vue.min.js"></script>
   <script>
-
+      $(function(){
         var date = $("#date");
         var today = new Date();
         var str = today.getFullYear().toString() + "-" + (today.getMonth()+1).toString()  + "-" +today.getDate().toString();
         date.val(str);
-        var fangshu,x,y,z,num,price,totalPrice;
+        var fangshu,x,y,z,num,price,totalPrice,data;
         var app = new Vue({
             el: "#num",
             data: {
               num : fangshu
             }
-          })
+          });
         var app2 = new Vue({
             el: "#total",
             data: {
               price : totalPrice
             }
-          })
+          });
         $("form").on('change','input',function(e){
-          x = parseFloat($("#guige1").val())*0.001;
-          y = parseFloat($("#guige2").val())*0.001;
+          x = parseFloat($("#guige1").val());
+          y = parseFloat($("#guige2").val());
           z = parseFloat($("#length").val());
           num = parseFloat($("#gen").val())
-          fangshu = x*y*z*num;
+          fangshu = x*0.001*y*0.001*z*num;
           price = parseFloat($("#price").val());
           totalPrice = fangshu * price;
           app.num = Math.floor(fangshu*1000)/1000;
           app2.price = totalPrice.toFixed(2);
-        })
-
+        });
+        $("#addname").click(function(event) {
+          data = {'id': $("#no").text(), 'title': $("#name").val() +" "+ $("#style").val(),'date': new Date()}
+          $.ajax({
+            url: '/addname',
+            type: 'post',
+            data: data,
+            success: function(data,status){
+              if(status == 'success'){
+                alert("添加成功，请添加产品规格");
+                proreset();
+                $("#form").attr('src', '/show?id='+<%= no %>);
+              }
+            },
+            error: function(data,err){
+              if(data.status == "500")
+                console.log(data);
+                alert("添加失败");
+            }
+          })
+          $("#addname").attr('disabled', 'disabled');;
+        });
+        $("#addform").click(function(event) {
+          data = {'changdu': z,'guige': x+"×"+y, 'num': num, 'fangshu': Math.floor(fangshu*1000)/1000, 'price': price, 'totalPrice': totalPrice.toFixed(2)};
+          $.ajax({
+            url: '/add',
+            type: 'post',
+            data: data,
+            success: function(data,status){
+              if(status == 'success'){
+                alert("添加成功");
+                proreset();
+                $("#form").attr('src', '/show?id='+<%= no %>);
+              }
+            },
+            error: function(data,err){
+              if(data.status == "500")
+                console.log(data);
+                alert("添加失败");
+            }
+          })
+        });
+        function proreset(){
+          $("#length").val("");
+          $("#guige1").val("");
+          $("#guige2").val("");
+          $("#gen").val("");
+          $("#price").val("");
+          $("#length").focus();
+        }
+      })
   </script>
 </body>
 </html>

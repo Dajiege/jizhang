@@ -5,6 +5,10 @@
   <title>表单</title>
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <style>
+    html,body{margin: 0 auto; padding: 0;}
+    body{width: 800px;}
+  </style>
 </head>
 <body>
   <h1 class="text-center">上海超浦木业有限公司</h1>
@@ -13,13 +17,13 @@
     <div class="pull-left">
       <p>公司地址：上海市闵行区元江路188号</p>
       <p><span>电话：34685932</span>&nbsp;&nbsp;<span>传真：34685932</span></p>
-      <p>购货单位：</p>
+      <p>购货单位：<%= data.title %></p>
     </div>
     <div class="pull-right">
-      <p>No.</p>
-      <span id="year"></span>年
-      <span id="month"></span>月
-      <span id="date"></span>日
+      <p>No.<%= data.id %></p>
+      <span id="year"><%= data.year %></span>年
+      <span id="month"><%= data.month %></span>月
+      <span id="date"><%= data.date %></span>日
     </div>
   </div>
   <table class="table table-bordered">

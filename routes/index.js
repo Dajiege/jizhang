@@ -29,7 +29,7 @@ router.post('/', function(req,res,next){
       res.sendStatus(200);
     }
   })
-})
+});
 
 router.get('/success',function(req,res){
   if(!req.session.user){
@@ -37,11 +37,11 @@ router.get('/success',function(req,res){
     res.redirect("/");
   }
   res.render('success', { user: req.session.user});
-})
+});
 
 router.get('/logout',function(req,res){
   req.session.user = null;
   req.session.error = null;
   res.redirect("/");
-})
+});
 module.exports = router;
