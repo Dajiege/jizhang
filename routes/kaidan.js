@@ -5,18 +5,31 @@ var mongoutil = require("../seriver/mongoutil");
 
 router.get('/add',function(req,res,next){
   var no,id,data,select;
-  mongoutil.selectData({"_id":"kaidan"},"ids",select,function(result){
-    if(result.length == 0){
-      var data_ = {"_id":"kaidan","id":0};
-      mongoutil.insertData(data_,"ids");
-      id = 1;
-      res.render('add_info',{"no":id});
-    }
-    else{
-      id = result[0].id + 1;
-      res.render('add_info',{"no":id});
-    }
-  })
+  if(req.query.id){
+    mongoutil.selectData({"_id":"kaidan"},"ids",select,function(result){
+      if(result[0].id < req.query.id ){
+        id = result[0].id + 1;
+        res.render('add_info',{"no":id});
+      }
+      else{
+        res.render('add_info',{"no":req.query.id});
+      }
+    });
+  }
+  else{
+    mongoutil.selectData({"_id":"kaidan"},"ids",select,function(result){
+      if(result.length == 0){
+        var data_ = {"_id":"kaidan","id":0};
+        mongoutil.insertData(data_,"ids");
+        id = 1;
+        res.render('add_info',{"no":id});
+      }
+      else{
+        id = result[0].id + 1;
+        res.render('add_info',{"no":id});
+      }
+    });
+  }
 
 });
 
@@ -40,9 +53,8 @@ router.post('/add',function(req,res,next){
       totalPrice = req.body.totalPrice,
       id = req.body.id,
       data = {item:{'changdu': changdu,'guige': guige, 'num': num, 'fangshu': fangshu, 'price': price, 'totalPrice': totalPrice}};
-      console.log(data);
       mongoutil.pushData(data,{"id":id},"kaidan",function(result){
-        console.log(result);
+        //console.log(result);
       });
       res.sendStatus(200);
 });
@@ -53,18 +65,10 @@ router.get('/show',function(req,res){
       if(result.length){
         var id = result[0].id,
         title = result[0].title,
-        time = new Date(result[0].date);
-        if(result[0].item){
-          var canshu = result[0].item;
-          data = {"id": id, "title": title, "year":time.getFullYear(), "month": time.getMonth()+1, "date": time.getDate(), "canshu": canshu}
-          res.render('tablelist',{"data":data});
-        }
-        else{
-          data = {"id": id, "title": title, "year":time.getFullYear(), "month": time.getMonth()+1, "date": time.getDate()}
-          res.render('tablelist',{"data":data});
-        }
-        
-       
+        time = new Date(result[0].date),
+        canshu = result[0].item,
+        data = {"id": id, "title": title, "year":time.getFullYear(), "month": time.getMonth()+1, "date": time.getDate(), "canshu": canshu}
+        res.render('tablelist',{"data":data});
       }
       else{
         var data={};

@@ -29,12 +29,12 @@
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th>长度</th>
-        <th>规格</th>
-        <th>数量</th>
-        <th>方数</th>
-        <th>单价</th>
-        <th>金额</th>
+        <th>长度(m)</th>
+        <th>规格(mm*mm)</th>
+        <th>数量(根)</th>
+        <th>方数(m<small>3</small>)</th>
+        <th>单价(元/m<small>3</small>)</th>
+        <th>金额(元)</th>
       </tr>
     </thead>
     <tbody>
@@ -46,16 +46,16 @@
         <td><%= data.canshu[i].num %></td>
         <td><%= data.canshu[i].fangshu %></td>
         <td><%= data.canshu[i].price %></td>
-        <td><%= data.canshu[i].totalPrice %></td>
+        <td class="price"><%= data.canshu[i].totalPrice %></td>
       </tr>
     <% } } %>
       <tr>
-        <td>合计：</td>
+        <td><strong>合计</strong></td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
-        <td><%=  %></td>
+        <td id="totalPrice"></td>
       </tr>
     </tbody>
   </table>
@@ -69,8 +69,18 @@
       <p>经手人：_________&nbsp; 电话：_________</p>
     </div>
     <div class="pull-right" style="border: 1px solid #e0e0e0; height: 60px; width: 250px;">
-
     </div>
   </div>
+  <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+  <script>
+    $(function(){
+      var price = $(".price");
+      var totalPrice = 0;
+      for(var i = 0; i < price.length ; i++){
+        totalPrice += parseFloat(price[i].innerText);
+      }
+      $("#totalPrice").text(totalPrice);
+    })
+  </script>
 </body>
 </html>
