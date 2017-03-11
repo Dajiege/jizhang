@@ -5,6 +5,9 @@
   <title>开单</title>
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <style>
+    .item{margin-top: 20px;}
+  </style>
 </head>
 <body>
   <div class="wrap container-fluid">
@@ -16,40 +19,124 @@
         <input type="text" id="name" placeholder="请输客户姓名" name="user">
         <label for="style" style="margin-left: 50px;">产品种类：</label>
         <select name="style" id="style">
+          <option></option>
           <option>花旗松</option>
           <option>辐射松</option>
           <option>铁杉</option>
+          <option>樟子松</option>
         </select>
         <button class="btn btn-info" id="addname" style="margin-left: 50px;">添加客户</button>
       </div>
-      <div class="form-group clearfix">
-        <label for="length">长度：</label>
-        <input type="number" id="length">（单位：米）
+      <div class="control-box">
+        <a href="javascript:;" class="btn btn-default active">添加木方</a>
+        <a href="javascript:;" class="btn btn-default">添加木条</a>
+        <a href="javascript:;" class="btn btn-default">添加锯末</a>
+        <a href="javascript:;" class="btn btn-default">添加其他</a>
       </div>
-      <div class="form-group clearfix">
-        <label for="guige">规格：</label>
-        <input type="number" id="guige1"> ×
-        <input type="number" id="guige2">（如：30*50，单位：毫米）
+      <div class="item">
+        <div class="form-group clearfix">
+          <label for="length">长度：</label>
+          <input type="number" id="length">（单位：米）
+        </div>
+        <div class="form-group clearfix">
+          <label for="guige">规格：</label>
+          <input type="number" id="guige1"> ×
+          <input type="number" id="guige2">（如：30×50，单位：毫米）
+        </div>
+        <div class="form-group clearfix">
+          <label for="gen">数量：</label>
+          <input type="number" id="gen">（单位：根）
+        </div>
+        <div class="form-group clearfix">
+          <label for="num">方数：</label>
+          <span id="num">{{num}}（单位：立方米）</span>
+        </div>
+        <div class="form-group clearfix">
+          <label for="price">单价：</label>
+          <input type="number" id="price" step=0.01>（单位：元/立方米）
+        </div>
+        <div class="form-group clearfix">
+          <label for="total">价格：</label>
+          <span id="total">{{price}}（单位：元）</span>
+        </div>
+        <button class="btn btn-primary" id="addmufang">加入表单</button>
       </div>
-      <div class="form-group clearfix">
-        <label for="gen">数量：</label>
-        <input type="number" id="gen">（单位：根）
+
+      <div class="item hidden">
+        <div class="form-group clearfix">
+          <label for="length2">长度：</label>
+          <input type="number" id="length2">（单位：米）
+        </div>
+        <div class="form-group clearfix">
+          <label for="kunshu2">捆数×根数：</label>
+          <input type="number" id="kunshu2"> ×
+          <input type="number" id="genshu2">（如：50×9，单位：捆×根）
+        </div>
+        <div class="form-group clearfix">
+          <label for="num2">数量：</label>
+          <span id="num2">{{num}}（单位：根）</span>
+        </div>
+        <div class="form-group clearfix">
+          <label for="price2">单价：</label>
+          <input type="number" id="price2" step=0.01>（单位：元/根）
+        </div>
+        <div class="form-group clearfix">
+          <label for="total2">价格：</label>
+          <span id="total2">{{price}}（单位：元）</span>
+        </div>
+        <button class="btn btn-primary" id="addmutiao">加入表单</button>
       </div>
-      <div class="form-group clearfix">
-        <label for="num">方数：</label>
-        <span id="num">{{num}}（单位：立方米）</span>
+
+      <div class="item hidden">
+        <div class="form-group clearfix">
+          <label for="length3">长度：</label>
+          <input type="number" id="length3">（单位：米）
+        </div>
+        <div class="form-group clearfix">
+          <label for="width3">宽度：</label>
+          <input type="number" id="width3">（单位：米）
+        </div>
+        <div class="form-group clearfix">
+          <label for="height3">高度：</label>
+          <input type="number" id="height3">（单位：米）
+        </div>
+        <div class="form-group clearfix">
+          <label for="num3">方数：</label>
+          <span id="num3">{{num}}（单位：立方米）</span>
+        </div>
+        <div class="form-group clearfix">
+          <label for="price3">单价：</label>
+          <input type="number" id="price3" step=0.01>（单位：元/立方米）
+        </div>
+        <div class="form-group clearfix">
+          <label for="total3">价格：</label>
+          <span id="total3">{{price}}（单位：元）</span>
+        </div>
+        <button class="btn btn-primary" id="addjumo">加入表单</button>
       </div>
-      <div class="form-group clearfix">
-        <label for="price">单价：</label>
-        <input type="number" id="price">（单位：元/立方米）
+
+      <div class="item hidden">
+        <div class="form-group clearfix">
+          <label for="num4">数量：</label>
+          <input type="number" id="num4">单位：
+          <select name="unit" id="unit">
+            <option></option>
+            <option>片</option>
+            <option>根</option>
+            <option>车</option>
+          </select>
+        </div>
+        <div class="form-group clearfix">
+          <label for="price4">单价：</label>
+          <input type="number" id="price4" step=0.01>（单位：元/<span id="danwei">{{unit}}</span>）
+        </div>
+        <div class="form-group clearfix">
+          <label for="total4">价格：</label>
+          <span id="total4">{{price}}（单位：元）</span>
+        </div>
+        <button class="btn btn-primary" id="addother">加入表单</button>
       </div>
-      <div class="form-group clearfix">
-        <label for="total">价格：</label>
-        <span id="total">{{price}}（单位：元）</span>
-      </div>
-      <button class="btn btn-primary" id="addform">加入表单</button>
-      <button class="btn btn-danger">提交表单</button>
-      <input type="reset" value="重置表单" class="btn btn-default">
+
     </form>
     <iframe src="/show?id=<%= no %>" id="form" frameborder="0" width="100%" height="800px" style="display: block; margin: 0 auto"></iframe>
   </div>
@@ -57,65 +144,138 @@
   <script src="//cdn.bootcss.com/vue/2.2.1/vue.min.js"></script>
   <script>
       $(function(){
-        var date = $("#date");
-        var today = new Date();
-        var str = today.getFullYear().toString() + "-" + (today.getMonth()+1).toString()  + "-" +today.getDate().toString();
-        date.val(str);
-        var fangshu,x,y,z,num,price,totalPrice,data;
-        var app = new Vue({
-            el: "#num",
-            data: {
-              num : fangshu
-            }
-          });
-        var app2 = new Vue({
-            el: "#total",
-            data: {
-              price : totalPrice
-            }
-          });
+        var fangshu,x,y,z,num,price,totalPrice,danwei,data,
+            mufang1 = new Vue({
+              el: "#num",
+              data: {
+                num : fangshu
+              }
+            }),
+            mufang2 = new Vue({
+              el: "#total",
+              data: {
+                price : totalPrice
+              }
+            }),
+           mutiao1 = new Vue({
+              el: "#num2",
+              data: {
+                num : fangshu
+              }
+            }),
+           mutiao2 = new Vue({
+              el: "#total2",
+              data: {
+                price : totalPrice
+              }
+            }),
+           jumo1 = new Vue({
+              el: "#num3",
+              data: {
+                num : fangshu
+              }
+            }),
+           jumo2 = new Vue({
+              el: "#total3",
+              data: {
+                price : totalPrice
+              }
+            }),
+           other1 = new Vue({
+              el: "#danwei",
+              data: {
+                unit : danwei 
+              }
+            }),
+           other2 = new Vue({
+              el: "#total4",
+              data: {
+                price : totalPrice 
+              }
+            });
         $("form").on('change','input',function(e){
-          x = parseFloat($("#guige1").val());
-          y = parseFloat($("#guige2").val());
-          z = parseFloat($("#length").val());
-          num = parseFloat($("#gen").val())
-          fangshu = x*0.001*y*0.001*z*num;
-          price = parseFloat($("#price").val());
-          totalPrice = fangshu * price;
-          app.num = Math.floor(fangshu*1000)/1000;
-          app2.price = totalPrice.toFixed(2);
+          if(!$(".item").eq(0).hasClass("hidden")){
+            x = parseFloat($("#guige1").val());
+            y = parseFloat($("#guige2").val());
+            z = parseFloat($("#length").val());
+            num = parseFloat($("#gen").val())
+            fangshu = x*0.001*y*0.001*z*num;
+            price = parseFloat($("#price").val());
+            totalPrice = fangshu * price;
+            mufang1.num = Math.floor(fangshu*1000)/1000;
+            mufang2.price = totalPrice.toFixed(2);
+          }
+          if(!$(".item").eq(1).hasClass("hidden")){
+            x = parseFloat($("#kunshu2").val());
+            y = parseFloat($("#genshu2").val());
+            z = parseFloat($("#length2").val());
+            fangshu = x*y;
+            price = parseFloat($("#price2").val());
+            totalPrice = fangshu * price;
+            mutiao1.num = Math.floor(fangshu*1000)/1000;
+            mutiao2.price = totalPrice.toFixed(2);
+          }
+          if(!$(".item").eq(2).hasClass("hidden")){
+            x = parseFloat($("#length3").val());
+            y = parseFloat($("#width3").val());
+            z = parseFloat($("#height3").val());
+            fangshu = x*y*z;
+            price = parseFloat($("#price3").val());
+            totalPrice = fangshu * price;
+            jumo1.num = Math.floor(fangshu*1000)/1000;
+            jumo2.price = totalPrice.toFixed(2);
+          }
+          if(!$(".item").eq(3).hasClass("hidden")){
+            x = parseFloat($("#num4").val());
+            danwei = $("#unit").val();
+            price = parseFloat($("#price4").val());
+            totalPrice = x * price;
+            other1.unit = danwei;
+            other2.price = totalPrice.toFixed(2);
+          }
+          
         });
+
         $("#addname").click(function(event) {
           data = {'id': $("#no").text(), 'title': $("#name").val() +" "+ $("#style").val(),'date': new Date()}
-          $.ajax({
-            url: '/addname',
-            type: 'post',
-            data: data,
-            success: function(data,status){
-              if(status == 'success'){
-                alert("添加成功，请添加产品规格");
-                proreset();
-                $("#form").attr('src', '/show?id='+<%= no %>);
-              }
-            },
-            error: function(data,err){
-              if(data.status == "500")
-                console.log(data);
-                alert("添加失败");
-            }
-          })
+          ajax("/addname",data)
           $("#addname").attr('disabled', 'disabled');;
         });
-        $("#addform").click(function(event) {
-          data = {'changdu': z,'guige': x+"×"+y, 'num': num, 'fangshu': Math.floor(fangshu*1000)/1000, 'price': price, 'totalPrice': totalPrice.toFixed(2),'id': $("#no").text()};
+        $("#addmufang").click(function(event) {
+          data = {'type': 0,'changdu': z,'guige': x+" × "+y, 'num': num, 'fangshu': Math.floor(fangshu*1000)/1000, 'price': price, 'totalPrice': totalPrice.toFixed(2),'id': $("#no").text()};
+          ajax("/addmufang",data)
+        });
+        $("#addmutiao").click(function(event) {
+          data = {'type': 1,'changdu': z,'kunshu': x, 'genshu':y, 'fangshu': Math.floor(fangshu*1000)/1000, 'price': price, 'totalPrice': totalPrice.toFixed(2),'id': $("#no").text()};
+          ajax("/addmutiao",data)
+        });
+        $("#addjumo").click(function(event) {
+          data = {'type': 2,'changdu': x,'kuandu': y, 'gaodu':z, 'fangshu': Math.floor(fangshu*1000)/1000, 'price': price, 'totalPrice': totalPrice.toFixed(2),'id': $("#no").text()};
+          ajax("/addjumo",data)
+        });
+        $("#addother").click(function(event) {
+          data = {'type': 3,'num': x,'danwei': danwei, 'price': price, 'totalPrice': totalPrice.toFixed(2),'id': $("#no").text()};
+          ajax("/addother",data)
+        });
+
+
+
+        $(".control-box").on("click",".btn",function(event){
+          var index = $(this).index();
+          $(this).siblings().removeClass("active");
+          $(this).addClass("active");
+          $(".item").addClass("hidden");
+          $(".item").eq(index).removeClass("hidden");
+        })
+        function ajax(url,data){
           $.ajax({
-            url: '/add',
+            url: url,
             type: 'post',
             data: data,
             success: function(data,status){
               if(status == 'success'){
                 alert("添加成功");
-                proreset();
+                proreset("item");
                 $("#form").attr('src', '/show?id='+<%= no %>);
               }
             },
@@ -125,15 +285,12 @@
                 alert("添加失败");
             }
           })
-        });
-        function proreset(){
-          $("#length").val("");
-          $("#guige1").val("");
-          $("#guige2").val("");
-          $("#gen").val("");
-          $("#price").val("");
-          $("#length").focus();
         }
+        function proreset(cls){
+          $("."+cls).find("input").val("");
+          $("."+cls).find("input").eq(0).focus();
+        }
+
       })
   </script>
 </body>

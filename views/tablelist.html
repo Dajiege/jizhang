@@ -8,6 +8,10 @@
   <style>
     html,body{margin: 0 auto; padding: 0;}
     body{width: 800px;}
+    .print{margin-top: 30px;}
+    .print-table{width: 100%;border-collapse: collapse; border:1px solid #333; margin-bottom: 20px;}
+    .print-table th,
+    .print-table td{padding: 8px; border:1px solid #333;}
   </style>
 </head>
 <body>
@@ -26,33 +30,52 @@
       <span id="date"><%= data.date %></span>日
     </div>
   </div>
-  <table class="table table-bordered">
+  <table class="print-table">
     <thead>
       <tr>
-        <th>长度(m)</th>
-        <th>规格(mm*mm)</th>
-        <th>数量(根)</th>
-        <th>方数(m<small>3</small>)</th>
-        <th>单价(元/m<small>3</small>)</th>
-        <th>金额(元)</th>
+        <th>名称</th>
+        <th>数量</th>
+        <th>单价（元）</th>
+        <th>金额（元）</th>
       </tr>
     </thead>
     <tbody>
     <% if(data.canshu){
-    for(var i=0; i < data.canshu.length; i++){ %>
+    for(var i=0; i < data.canshu.length; i++){ 
+      if(data.canshu[i].type == 0){%>
       <tr>
-        <td><%= data.canshu[i].changdu %></td>
-        <td><%= data.canshu[i].guige %></td>
-        <td><%= data.canshu[i].num %></td>
+        <td><%= data.canshu[i].changdu %>米 × <%= data.canshu[i].guige %> × <%= data.canshu[i].num %></td>
         <td><%= data.canshu[i].fangshu %></td>
         <td><%= data.canshu[i].price %></td>
         <td class="price"><%= data.canshu[i].totalPrice %></td>
       </tr>
-    <% } } %>
+    <%}
+    else if(data.canshu[i].type == 1){%>
+      <tr>
+        <td><%= data.canshu[i].changdu %>米 × <%= data.canshu[i].kunshu %>捆 × <%= data.canshu[i].genshu %>根</td>
+        <td><%= data.canshu[i].fangshu %></td>
+        <td><%= data.canshu[i].price %></td>
+        <td class="price"><%= data.canshu[i].totalPrice %></td>
+      </tr>
+    <%}
+    else if(data.canshu[i].type == 2){%>
+      <tr>
+        <td><%= data.canshu[i].changdu %>米 × <%= data.canshu[i].kuandu %>米 × <%= data.canshu[i].gaodu %>米</td>
+        <td><%= data.canshu[i].fangshu %></td>
+        <td><%= data.canshu[i].price %></td>
+        <td class="price"><%= data.canshu[i].totalPrice %></td>
+      </tr>
+      <%}
+    else if(data.canshu[i].type == 3){%>
+      <tr>
+        <td><%= data.canshu[i].num %> <%= data.canshu[i].danwei %></td>
+        <td></td>
+        <td><%= data.canshu[i].price %></td>
+        <td class="price"><%= data.canshu[i].totalPrice %></td>
+      </tr>
+    <%} } } %>
       <tr>
         <td><strong>合计</strong></td>
-        <td></td>
-        <td></td>
         <td></td>
         <td></td>
         <td id="totalPrice"></td>
@@ -60,17 +83,18 @@
     </tbody>
   </table>
   <div class="tablefoot">
-    <div class="pull-left" style="padding-right: 5px; margin-right: 5px;border-right: 1px solid #e0e0e0">
-      <p>发货人：_________&nbsp; 电话： 13601968169</p>
+    <div class="pull-left" style="padding-right: 5px; margin-right: 5px;border-right: 1px solid #333">
+      <p>发货人：<span style="display: inline-block; border-bottom: 1px solid #333; padding: 0 14px;">林国清</span>&nbsp; 电话： 13601968169</p>
       <p>经手人：_________&nbsp; 电话： 13621901455</p>
     </div>
     <div class="pull-left">
       <p>欠款人：_________&nbsp; 电话：_________</p>
       <p>经手人：_________&nbsp; 电话：_________</p>
     </div>
-    <div class="pull-right" style="border: 1px solid #e0e0e0; height: 60px; width: 250px;">
+    <div class="pull-right" style="border: 1px solid #333; height: 60px; width: 250px;">
     </div>
   </div>
+  <button class="btn btn-primary pull-right print">打印</button>
   <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
   <script>
     $(function(){
@@ -79,7 +103,12 @@
       for(var i = 0; i < price.length ; i++){
         totalPrice += parseFloat(price[i].innerText);
       }
-      $("#totalPrice").text(totalPrice);
+      $("#totalPrice").text(totalPrice.toFixed(2));
+      $(".print").click(function(){
+        $(this).css("display","none");
+        window.print();
+        $(this).css("display","");
+      })
     })
   </script>
 </body>

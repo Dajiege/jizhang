@@ -7,7 +7,13 @@ router.get('/add',function(req,res,next){
   var no,id,data,select;
   if(req.query.id){
     mongoutil.selectData({"_id":"kaidan"},"ids",select,function(result){
-      if(result[0].id < req.query.id ){
+      if(result.length == 0){
+        var data_ = {"_id":"kaidan","id":0};
+        mongoutil.insertData(data_,"ids");
+        id = 1;
+        res.render('add_info',{"no":id});
+      }
+      else if(result[0].id < req.query.id ){
         id = result[0].id + 1;
         res.render('add_info',{"no":id});
       }
@@ -44,15 +50,62 @@ router.post('/addname',function(req,res,next){
       });
 });
 
-router.post('/add',function(req,res,next){
-  var changdu = req.body.changdu,
+router.post('/addmufang',function(req,res,next){
+  var type = req.body.type,
+      changdu = req.body.changdu,
       guige = req.body.guige,
       num = req.body.num,
       fangshu = req.body.fangshu,
       price = req.body.price,
       totalPrice = req.body.totalPrice,
       id = req.body.id,
-      data = {item:{'changdu': changdu,'guige': guige, 'num': num, 'fangshu': fangshu, 'price': price, 'totalPrice': totalPrice}};
+      data = {item:{'type': type,'changdu': changdu,'guige': guige, 'num': num, 'fangshu': fangshu, 'price': price, 'totalPrice': totalPrice}};
+      mongoutil.pushData(data,{"id":id},"kaidan",function(result){
+        //console.log(result);
+      });
+      res.sendStatus(200);
+});
+
+router.post('/addmutiao',function(req,res,next){
+  var type = req.body.type,
+      changdu = req.body.changdu,
+      kunshu = req.body.kunshu,
+      genshu = req.body.genshu,
+      fangshu = req.body.fangshu,
+      price = req.body.price,
+      totalPrice = req.body.totalPrice,
+      id = req.body.id,
+      data = {item:{'type': type,'changdu': changdu,'kunshu': kunshu, 'genshu': genshu, 'fangshu': fangshu, 'price': price, 'totalPrice': totalPrice}};
+      mongoutil.pushData(data,{"id":id},"kaidan",function(result){
+        //console.log(result);
+      });
+      res.sendStatus(200);
+});
+
+router.post('/addjumo',function(req,res,next){
+  var type = req.body.type,
+      changdu = req.body.changdu,
+      kuandu = req.body.kuandu,
+      gaodu = req.body.gaodu,
+      fangshu = req.body.fangshu,
+      price = req.body.price,
+      totalPrice = req.body.totalPrice,
+      id = req.body.id,
+      data = {item:{'type': type,'changdu': changdu,'kuandu': kuandu, 'gaodu': gaodu, 'fangshu': fangshu, 'price': price, 'totalPrice': totalPrice}};
+      mongoutil.pushData(data,{"id":id},"kaidan",function(result){
+        //console.log(result);
+      });
+      res.sendStatus(200);
+});
+
+router.post('/addother',function(req,res,next){
+  var type = req.body.type,
+      num = req.body.num,
+      danwei = req.body.danwei,
+      price = req.body.price,
+      totalPrice = req.body.totalPrice,
+      id = req.body.id,
+      data = {item:{'type': type,'num': num,'danwei': danwei, 'price': price, 'totalPrice': totalPrice}};
       mongoutil.pushData(data,{"id":id},"kaidan",function(result){
         //console.log(result);
       });
