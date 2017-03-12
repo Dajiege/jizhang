@@ -5,14 +5,14 @@
   <title>单号<%= data.id %></title>
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
-  <meta name="format-detection" content="telephone=no" />
+  <meta name="format-detection" content="telphone=no, email=no"/>  
   <style>
     html,body{margin: 0 auto; padding: 0;}
     body{width: 800px;}
-    .print{margin-top: 30px;}
+    .edit{margin-top: 20px;}
     .print-table{width: 100%;border-collapse: collapse; border:1px solid #333; margin-bottom: 20px;}
     .print-table th,
-    .print-table td{padding: 8px; border:1px solid #333;}
+    .print-table td{padding: 8px; border:1px solid #333; text-align: center;}
     .blank{display: inline-block; border-bottom: 1px solid #333; width: 70px; text-align: center;}
   </style>
 </head>
@@ -36,43 +36,44 @@
     <thead>
       <tr>
         <th style="width: 40%;">名称</th>
-        <th style="width: 20%;">数量</th>
-        <th style="width: 20%;">单价（元）</th>
-        <th style="width: 20%;">金额（元）</th>
+        <th style="width: 15%;">数量</th>
+        <th style="width: 15%;">单价（元）</th>
+        <th style="width: 15%;">金额（元）</th>
+        <th style="width: 15%;">操作</th>
       </tr>
     </thead>
-    <tbody> 
+    <tbody>
     <% if(data.canshu){
     for(var i=0; i < data.canshu.length; i++){ 
-      if(! data.canshu[i] instanceof Object){
-          continue;
-        }
       if(data.canshu[i].type == 0){%>
-      <tr>
+      <tr class="item">
         <td><%= data.canshu[i].changdu %>米 × <%= data.canshu[i].guige %> × <%= data.canshu[i].num %></td>
         <td><%= data.canshu[i].fangshu %></td>
         <td><%= data.canshu[i].price %></td>
         <td class="price"><%= data.canshu[i].totalPrice %></td>
+        <td><a href="javascript:;" class="delete">删除</a></td>
       </tr>
     <%}
     else if(data.canshu[i].type == 1){%>
-      <tr>
+      <tr class="item">
         <td><%= data.canshu[i].changdu %>米 × <%= data.canshu[i].kunshu %>捆 × <%= data.canshu[i].genshu %>根</td>
         <td><%= data.canshu[i].fangshu %></td>
         <td><%= data.canshu[i].price %></td>
         <td class="price"><%= data.canshu[i].totalPrice %></td>
+        <td><a href="javascript:;" class="delete">删除</a></td>
       </tr>
     <%}
     else if(data.canshu[i].type == 2){%>
-      <tr>
+      <tr class="item">
         <td><%= data.canshu[i].changdu %>米 × <%= data.canshu[i].kuandu %>米 × <%= data.canshu[i].gaodu %>米</td>
         <td><%= data.canshu[i].fangshu %></td>
         <td><%= data.canshu[i].price %></td>
         <td class="price"><%= data.canshu[i].totalPrice %></td>
+        <td><a href="javascript:;" class="delete">删除</a></td>
       </tr>
       <%}
     else if(data.canshu[i].type == 3){%>
-      <tr>
+      <tr class="item">
         <td><%= data.canshu[i].num %> <%= data.canshu[i].danwei %></td>
         <td></td>
         <td><%= data.canshu[i].price %></td>
@@ -80,10 +81,7 @@
       </tr>
     <%} } } %>
       <tr>
-        <td><strong>合计</strong></td>
-        <td></td>
-        <td></td>
-        <td id="totalPrice"></td>
+        <td colspan="5"><strong>合计金额：</strong><span id="totalPrice"></span></td>
       </tr>
     </tbody>
   </table>
@@ -99,21 +97,42 @@
     <div class="pull-right" style="border: 1px solid #333; height: 60px; width: 250px;">
     </div>
   </div>
-  <button class="btn btn-primary pull-right print">打印预览</button>
   <script src="/javascripts/jquery.min.js"></script>
   <script>
     $(function(){
-      var price = $(".price");
-      var totalPrice = 0;
-      for(var i = 0; i < price.length ; i++){
-        totalPrice += parseFloat(price[i].innerText);
-      }
-      $("#totalPrice").text(totalPrice.toFixed(2));
-      $("body").on("click",".print",function(){
-        $(this).hide();
-        window.print();
-        $(this).show();
-      });
+      add();
+      $(".delete").click(function(){
+        var index = $(this).parents(".item").index(),
+            data = {"id":<%= data.id %>,"index": index}
+        dajax("/del",data);
+        $(this).parents(".item").remove();
+        add();
+      })
+      function dajax(url,data){
+          $.ajax({
+            url: url,
+            type: 'post',
+            data: data,
+            success: function(data,status){
+              if(status == 'success'){
+                alert("删除成功");
+              }
+            },
+            error: function(data,err){
+              if(data.status == "500")
+                console.log(data);
+                alert("添加失败");
+            }
+          })
+        }
+        function add(){
+          var price = $(".price"),
+              totalPrice = 0;
+          for(var i = 0; i < price.length ; i++){
+            totalPrice += parseFloat(price[i].innerText);
+          }
+          $("#totalPrice").text(totalPrice.toFixed(2));
+        }
     })
   </script>
 </body>

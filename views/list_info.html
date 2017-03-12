@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>所有账单</title>
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <style>
+    .print-table{width: 100%;border-collapse: collapse; border:1px solid #333; margin: 20px auto;}
+    .print-table th,
+    .print-table td{padding: 8px; border:1px solid #333; text-align: center; width: 20%;}
+    .print-table a{text-decoration: none !important;}
+  </style>
+</head>
+<body>
+  <div class="wrap container-fluid">
+    <table class="print-table">
+      <thead>
+        <tr>
+          <th>编号</th>
+          <th>客户</th>
+          <th>金额</th>
+          <th>日期</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      <%for(var i = 0, len = data.length; i < len ; i++){%>
+        <tr>
+          <td><%= data[i].id %></td>
+          <td><%= data[i].name %></td>
+          <td class="price"><%= data[i].totalPrice %></td>
+          <td><%= data[i].year %>-<%= data[i].month %>-<%= data[i].date %></td>
+          <td>
+            <a href="/show?id=<%= data[i].id %>" target="_blank">查看</a>
+            <a href="/edit?id=<%= data[i].id %>" target="_blank">编辑</a>
+          </td>
+        </tr>
+     <% } %>
+         <tr>
+           <td colspan="5">总计金额: <span id="all"></span></td>
+         </tr>
+      </tbody>
+    </table>
+  </div>
+  <script src="/javascripts/jquery.min.js"></script>
+  <script>
+    $(function(){
+      var price = $(".price");
+      var totalPrice = 0;
+      for(var i = 0,len = price.length; i < len ; i++){
+        totalPrice += parseFloat(price[i].innerText);
+      }
+      $("#all").text(totalPrice.toFixed(2));
+    })
+  </script>
+</body>
+</html>

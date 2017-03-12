@@ -21,6 +21,39 @@ var pushData = function(data, where, conllection, db, callback){
     callback(result);
   });
 };
+var pullData = function(index, arr, where, conllection, db, callback){
+  var collection = db.collection(conllection),
+      pos = arr+'.'+index,
+      data = {},
+      data_ = {};
+      data[pos] = {"delete":true};
+      data_[arr] = {"delete":true}
+      console.log(data_);
+  collection.update(where,{$set: data},function(err,result){
+    if(err){
+      console.log('Error:'+ err);
+      return;
+    }
+    callback(result);
+  });
+  collection.update(where,{$pull: data_},function(err,result){
+    if(err){
+      console.log('Error:'+ err);
+      return;
+    }
+    callback(result);
+  })
+};
+var updateData = function(data, where, conllection, db, callback){
+  var collection = db.collection(conllection);
+  collection.update(where,{$set: data},function(err,result){
+    if(err){
+      console.log('Error:'+ err);
+      return;
+    }
+    callback(result);
+  })
+};
 var selectData = function(where,conllection,select,db,callback){
   var collection = db.collection(conllection);
   collection.find(where,select).toArray(function(err,result){
@@ -107,6 +140,26 @@ module.exports ={
         db.close();
       })
     });
+  },
+  pullData: function(arr,index,where,conllection,cb){
+     MongoClient.connect(DB_CONN_STR, function(err,db){
+        pullData(index, arr, where, conllection, db, function(result){
+          if(cb){
+            cb(result);
+          }
+          db.close();
+        })
+     })
+  },
+  updateData: function(data,where,conllection,cb){
+    MongoClient.connect(DB_CONN_STR, function(err,db){
+      updateData(data,where,conllection,db,function(result){
+        if(cb){
+          cb(result);
+        }
+        db.close();
+      })
+    })
   }
 
 }

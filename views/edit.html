@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>开单</title>
+  <title>修改欠款单</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon" /> 
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
@@ -15,12 +15,12 @@
     <form method="post" onsubmit="return false" style="width: 800px;margin: 20px auto">
       <div class="form-group input-group" style="border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 10px;">
         <label for="no">编号：</label>
-        <span>No.<span id="no"><%= no %></span></span>
+        <span>No.<span id="no"><%= data.id %></span></span>
         <label for="name" style="margin-left: 50px;">客户： </label> 
-        <input type="text" id="name" placeholder="请输客户姓名" name="user">
+        <input type="text" id="name" placeholder="请输客户姓名" name="user" value="<%= data.name %>">
         <label for="style" style="margin-left: 50px;">产品种类：</label>
-        <input type="text" id="style" placeholder="请输产品种类">
-        <button class="btn btn-info" id="addname" style="margin-left: 50px;">添加客户</button>
+        <input type="text" id="style" value="<%= data.zhonglei %>">
+        <button class="btn btn-info" id="editname" style="margin-left: 50px;">修改</button>
       </div>
       <div class="control-box">
         <a href="javascript:;" class="btn btn-default active">添加木方</a>
@@ -134,7 +134,7 @@
       </div>
 
     </form>
-    <iframe src="/show?id=<%= no %>" id="form" frameborder="0" width="100%" style="display: block; margin: 0 auto; min-height: 800px;"></iframe>
+    <iframe src="/edit_form?id=<%= data.id %>" id="form" frameborder="0" width="100%" style="display: block; margin: 0 auto; min-height: 800px;"></iframe>
   </div>
   <script src="/javascripts/jquery.min.js"></script>
   <script src="/javascripts/vue.min.js"></script>
@@ -232,10 +232,10 @@
           
         });
 
-        $("#addname").click(function(event) {
+        $("#editname").click(function(event) {
           data = {'id': $("#no").text(), 'name': $("#name").val(), 'zhonglei': $("#style").val(),'date': new Date()}
-          ajax("/addname",data)
-          $("#addname").attr('disabled', 'disabled');;
+          ajax("/editname",data)
+          $("#editname").attr('disabled', 'disabled');;
         });
         $("#addmufang").click(function(event) {
           data = {'type': 0,'changdu': z,'guige': x+" × "+y, 'num': num, 'fangshu': Math.floor(fangshu*1000)/1000, 'price': price, 'totalPrice': totalPrice.toFixed(2),'id': $("#no").text()};
@@ -270,9 +270,9 @@
             data: data,
             success: function(data,status){
               if(status == 'success'){
-                alert("添加成功");
+                alert("操作成功");
                 proreset("item");
-                $("#form").attr('src', '/show?id='+<%= no %>);
+                $("#form").attr('src', '/edit_form?id='+<%= data.id %>);
               }
             },
             error: function(data,err){

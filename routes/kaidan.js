@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var mongoutil = require("../seriver/mongoutil");
 
+router.get('/',function(req,res,next){
+  res.render('jizhang');
+});
 
 router.get('/add',function(req,res,next){
   var no,id,data,select;
@@ -36,18 +39,27 @@ router.get('/add',function(req,res,next){
       }
     });
   }
-
 });
 
 router.post('/addname',function(req,res,next){
-  var title = req.body.title,
+  var name = req.body.name,
+      zhonglei = req.body.zhonglei,
       date = req.body.date,
       id = req.body.id;
       mongoutil.addIds("kaidan","ids",function(result){
-        data = {'id': id, 'title': title, 'date':date};
+        var data = {'id': id, 'name': name, 'zhonglei': zhonglei, 'date':date};
         mongoutil.insertData(data,"kaidan");
         res.sendStatus(200);
       });
+});
+router.post('/editname',function(req,res,next){
+  var name = req.body.name,
+      zhonglei = req.body.zhonglei,
+      date = req.body.date,
+      id = req.body.id,
+      data = {'name': name, 'zhonglei':zhonglei, 'date':date};
+      mongoutil.updateData(data,{"id": id},"kaidan");
+      res.sendStatus(200);
 });
 
 router.post('/addmufang',function(req,res,next){
@@ -112,15 +124,16 @@ router.post('/addother',function(req,res,next){
       res.sendStatus(200);
 });
 
-router.get('/show',function(req,res){
+router.get('/show',function(req,res,next){
   if(req.query.id){
     mongoutil.selectData({"id": req.query.id},"kaidan",{},function(result){
       if(result.length){
         var id = result[0].id,
-        title = result[0].title,
+        name = result[0].name,
+        zhonglei = result[0].zhonglei,
         time = new Date(result[0].date),
         canshu = result[0].item,
-        data = {"id": id, "title": title, "year":time.getFullYear(), "month": time.getMonth()+1, "date": time.getDate(), "canshu": canshu}
+        data = {"id": id, "name": name, "zhonglei": zhonglei, "year":time.getFullYear(), "month": time.getMonth()+1, "date": time.getDate(), "canshu": canshu}
         res.render('tablelist',{"data":data});
       }
       else{
@@ -136,4 +149,74 @@ router.get('/show',function(req,res){
   
 });
 
+router.get('/list',function(req,res,next){
+  mongoutil.selectData({},"kaidan",{},function(result){
+    var totalPrice,time,item,data = [];
+    for(var i = 0 ,len = result.length; i < len ; i++){
+      item = {}
+      totalPrice = 0;
+      time = new Date(result[i].date);
+      for(var t = 0, len2 = result[i].item.length; t < len2; t++){
+        totalPrice += parseFloat(result[i].item[t].totalPrice);
+      }
+      item = {"id": result[i].id, "name": result[i].name, "totalPrice": totalPrice, "year": time.getFullYear(),"month": time.getMonth()+1, "date": time.getDate()};
+      data.push(item);
+    }
+    res.render('list_info',{data : data});
+  })
+  
+});
+router.get('/edit',function(req,res,next){
+  var id,name,zhonglei,data,select;
+  if(req.query.id){
+    mongoutil.selectData({"id":req.query.id},"kaidan",{},function(result){
+      if(result.length == 0){
+        req.session.error = "没有该订单";
+        res.redirect("/");
+      }
+      else{
+        data = {"id": result[0].id, "name": result[0].name,"zhonglei":result[0].zhonglei}
+        res.render('edit',{"data":data});
+      }
+    });
+  }
+  else{
+        req.session.error = "缺少参数";
+        res.redirect("/");
+  }
+});
+
+router.get('/edit_form',function(req,res,next){
+  if(req.query.id){
+    mongoutil.selectData({"id": req.query.id},"kaidan",{},function(result){
+      if(result.length){
+        var id = result[0].id,
+        name = result[0].name,
+        zhonglei = result[0].zhonglei,
+        time = new Date(result[0].date),
+        canshu = result[0].item,
+        data = {"id": id, "name": name, "zhonglei": zhonglei, "year":time.getFullYear(), "month": time.getMonth()+1, "date": time.getDate(), "canshu": canshu}
+        res.render('edit_info',{"data":data});
+      }
+      else{
+        var data={};
+        res.render('edit_info',{"data":data});
+      }
+  });
+  }
+  else{
+    var data={};
+    res.render('edit_info',{"data":data});
+  }
+});
+
+router.post('/del',function(req,res,next){
+  var index = req.body.index,
+      id = req.body.id;
+      mongoutil.pullData("item",index,{"id":id},"kaidan",function(result){
+        // console.log("item."+index);
+        //console.log(result);
+      });
+      res.sendStatus(200);
+});
 module.exports = router;

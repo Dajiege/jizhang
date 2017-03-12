@@ -1,0 +1,30 @@
+a:focus, a:hover {text-decoration: none;}
+.title{
+  background: #6d3353;
+}
+.title .col-lg-12 {
+  margin: 20px 0;
+}
+.title h1{
+  margin-left: 5%;
+  color: #fff;
+}
+.item{
+  background: #6f5499;
+  margin: 0 15px;
+  padding: 5px 0 20px;
+}
+.item:hover{
+  background: #6d3353;
+}
+.item a{
+  display: block;
+  color: #fff !important;
+}
+.iconfont{
+  font-size: 80px;
+  display: block;
+}
+.item-box{
+  margin-top: 40px;
+}
