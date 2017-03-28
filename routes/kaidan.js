@@ -156,8 +156,10 @@ router.get('/list',function(req,res,next){
       item = {}
       totalPrice = 0;
       time = new Date(result[i].date);
-      for(var t = 0, len2 = result[i].item.length; t < len2; t++){
-        totalPrice += parseFloat(result[i].item[t].totalPrice);
+      if(result[i].item instanceof Array){
+        for(var t = 0, len2 = result[i].item.length; t < len2; t++){
+          totalPrice += parseFloat(result[i].item[t].totalPrice);
+        }
       }
       item = {"id": result[i].id, "name": result[i].name, "totalPrice": totalPrice, "year": time.getFullYear(),"month": time.getMonth()+1, "date": time.getDate()};
       data.push(item);
