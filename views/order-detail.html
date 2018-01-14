@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>下单-超浦木业记账系统</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" /> 
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_487368_7tqlr5858m8ia4i.css">
+  <link rel="stylesheet" href="/stylesheets/global.css">
+</head>
+<body>
+  <div class="page-wrap">
+    <div class="container-fluid">
+      <% include top.html %>
+      <div class="main-box row">
+        <div class="main">
+        <!--startprint-->
+          <table class="table table-bordered text-center order-detail">
+            <thead>
+              <tr>
+                <td>品名</td>
+                <td>长度（m）</td>
+                <td>宽度（mm）</td>
+                <td>厚度（mm）</td>
+                <td>数量（根）</td>
+                <td>方数（m³）</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>木方</td>
+                <td>5</td>
+                <td>128</td>
+                <td>128</td>
+                <td>20</td>
+                <td>1.6384</td>
+              </tr>
+              <tr>
+                <td>木方</td>
+                <td>5</td>
+                <td>128</td>
+                <td>128</td>
+                <td>20</td>
+                <td>1.6384</td>
+              </tr>
+              <tr>
+                <td>木方</td>
+                <td>5</td>
+                <td>128</td>
+                <td>128</td>
+                <td>20</td>
+                <td>1.6384</td>
+              </tr>
+              <tr>
+                <td>木方</td>
+                <td>5</td>
+                <td>128</td>
+                <td>128</td>
+                <td>20</td>
+                <td>1.6384</td>
+              </tr>
+              <tr>
+                <td>木方</td>
+                <td>5</td>
+                <td>128</td>
+                <td>128</td>
+                <td>20</td>
+                <td>1.6384</td>
+              </tr>
+              <tr>
+                <td>木方</td>
+                <td>5</td>
+                <td>128</td>
+                <td>128</td>
+                <td>20</td>
+                <td>1.6384</td>
+              </tr>
+              <tr>
+                <td>木方</td>
+                <td>5</td>
+                <td>128</td>
+                <td>128</td>
+                <td>20</td>
+                <td>1.6384</td>
+              </tr>
+              <tr>
+                <td>木方</td>
+                <td>5</td>
+                <td>128</td>
+                <td>128</td>
+                <td>20</td>
+                <td>1.6384</td>
+              </tr>
+              <tr>
+                <td>木方</td>
+                <td>5</td>
+                <td>128</td>
+                <td>128</td>
+                <td>20</td>
+                <td>1.6384</td>
+              </tr>
+              <tr class="totle-fs">
+                <td>总方数</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1.6384</td>
+              </tr>
+            </tbody>
+          </table>
+        <!--endprint-->
+          <div class="form-group footbtn clearfix">
+              <a href="javascript:;" class="btn btn-default printbtn">打印</a>
+              <a href="javascript:;" class="btn btn-default backbtn">返回</a>
+            </div>  
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="javascripts/jquery.min.js"></script>
+  <script>
+    function doPrint() { 
+        bdhtml=window.document.body.innerHTML; 
+        sprnstr="<!--startprint-->"; //开始打印标识字符串有17个字符
+        eprnstr="<!--endprint-->"; //结束打印标识字符串
+        prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17); //从开始打印标识之后的内容
+        prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr)); //截取开始标识和结束标识之间的内容
+        window.document.body.innerHTML=prnhtml; //把需要打印的指定内容赋给body.innerHTML
+        window.print(); //调用浏览器的打印功能打印指定区域
+        window.document.body.innerHTML=bdhtml; // 最后还原页面
+      }
+      $("body").on('click', '.printbtn', function(event) {
+        doPrint();
+      }).on('click', '.backbtn', function(event) {
+        history.go(-1);
+      });
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>客户-超浦木业记账系统</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" /> 
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_487368_7tqlr5858m8ia4i.css">
+  <link rel="stylesheet" href="/stylesheets/global.css">
+</head>
+<body>
+  <div class="page-wrap">
+    <div class="container-fluid">
+      <% include top.html %>
+      <div class="main-box row">
+        <div class="main">
+          <div class="main-top clearfix">
+            <div class="form-group input-group pull-left">
+              <input type="text" id="user" class="form-control " placeholder="搜索客户" name="user">
+              <span class="input-group-addon">
+                <i class="iconfont icon-search"></i>
+              </span>
+            </div>
+            <div class=" add-kehu pull-right">
+              <a class="btn btn-default" data-toggle="modal" data-target="#add_kehu">添加客户</a>
+            </div>
+          </div>
+          <div class="tongji clearfix">
+            <p class="pull-left">累计收入: ¥ <span class="in">60万</span></p>
+            <p class="pull-right">累计欠款: ¥ <span class="out">30万</span></p>
+            
+          </div>
+          <table class="table table-bordered text-center kehutable">
+            <thead>
+              <tr>
+                <th>客户姓名</th>
+                <th>交易金额</th>
+                <th>已付金额</th>
+                <th>累计欠款</th>
+                <th class="hidden-xs">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="kh-name"><a href="#">张三</a></td>
+                <td>¥ <span class="totle-money">200000</span></td>
+                <td class="pay-money"><a href="#">¥ <span>100000</span></a></td>
+                <td>¥ <span class="need-pay">100000</span></td>
+                <td class="hidden-xs">
+                  <a href="javascript:;">明细</a>
+                  <a href="javascript:;">付款</a>
+                  <a href="javascript:;">记录</a>
+                  <a href="javascript:;">删除</a>
+                </td>
+              </tr>
+              <tr>
+                <td class="kh-name"><a href="#">李四</a></td>
+                <td>¥ <span class="totle-money">200000</span></td>
+                <td class="pay-money"><a href="#">¥ <span>100000</span></a></td>
+                <td>¥ <span class="need-pay">100000</span></td>
+                <td class="hidden-xs">
+                  <a href="javascript:;">明细</a>
+                  <a href="javascript:;">付款</a>
+                  <a href="javascript:;">记录</a>
+                  <a href="javascript:;">删除</a>
+                </td>
+              </tr>
+              <tr>
+                <td class="kh-name"><a href="#">王五</a></td>
+                <td>¥ <span class="totle-money">200000</span></td>
+                <td class="pay-money"><a href="#">¥ <span>100000</span></a></td>
+                <td>¥ <span class="need-pay">100000</span></td>
+                <td class="hidden-xs">
+                  <a href="javascript:;">明细</a>
+                  <a href="javascript:;">付款</a>
+                  <a href="javascript:;">记录</a>
+                  <a href="javascript:;">删除</a>
+                </td>
+              </tr>
+              <tr>
+                <td class="kh-name"><a href="#">赵六</a></td>
+                <td>¥ <span class="totle-money">200000</span></td>
+                <td class="pay-money"><a href="#">¥ <span>100000</span></a></td>
+                <td>¥ <span class="need-pay">100000</span></td>
+                <td class="hidden-xs">
+                  <a href="javascript:;">明细</a>
+                  <a href="javascript:;">付款</a>
+                  <a href="javascript:;">记录</a>
+                  <a href="javascript:;">删除</a>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="add_kehu" tabindex="-1" role="dialog" >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="exampleModalLabel">添加客户</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal newkehu" enctype="multipart/form-data" method="post">
+            <div class="form-group">
+              <label for="recipient-name" class="control-label col-sm-3">客户编号：</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="kehu_id" value="0001">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="control-label col-sm-3">客户姓名：</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="kehu_name">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary add-btn">确认</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="javascripts/jquery.min.js"></script>
+  <script src="javascripts/bootstrap.min.js"></script>
+  <script>
+    $(function(){
+      $(".add-btn").on('click', function(event) {
+        var newkehu = new FormData($(".newkehu")[0]);
+        console.log($(".newkehu").serialize());
+        $.ajax({
+          url: '/kehu',
+          type: 'POST',
+          dataType: 'json',
+          data: $(".newkehu").serialize()
+        })
+        .success(function(data) {
+          console.log(data);
+        })
+        .fail(function() {
+          console.log("error");
+        })
+        .always(function() {
+          console.log("complete");
+        });
+        
+        
+      });
+    })
+  </script>
+</body>
+</html>

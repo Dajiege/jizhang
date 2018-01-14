@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>进出账-超浦木业记账系统</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" /> 
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_487368_7tqlr5858m8ia4i.css">
+  <link rel="stylesheet" href="/stylesheets/global.css">
+</head>
+<body>
+  <div class="page-wrap">
+    <div class="container-fluid">
+      <% include top.html %>
+      <div class="main-box row">
+        <div class="main">
+          <div class="main-top clearfix">
+            <div class="form-group input-group pull-left">
+              <input type="text" id="user" class="form-control " placeholder="搜索日期" name="user">
+              <span class="input-group-addon">
+                <i class="iconfont icon-search"></i>
+              </span>
+            </div>
+
+            <div class=" add-ex pull-right">
+              <a href="javascript:;" class="btn btn-default">添加出账</a>
+            </div>
+            <div class=" add-im pull-right">
+              <a href="javascript:;" class="btn btn-default">添加进账</a>
+            </div>
+          </div>
+
+          <div class="tongji clearfix">
+            <p class="pull-left">累计进账: ¥ <span class="in">60万</span></p>
+            <p class="pull-right">累计出账: ¥ <span class="out">30万</span></p>
+            
+          </div>
+          <table class="table table-bordered text-center xdorder">
+            <thead>
+              <tr>
+                <th>日期</th>
+                <th>款项</th>
+                <th>金额</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2017年12月9日</td>
+                <td>原木付款</td>
+                <td><span class="less">- 30000.00</span></td>
+              </tr>
+              <tr>
+                <td>2017年12月9日</td>
+                <td>陈海兰收款</td>
+                <td><span class="plus">+ 30000.00</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
